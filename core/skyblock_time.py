@@ -77,40 +77,49 @@ class SkyblockTimeCalculator:
         events = []
         
         # Spooky Festival is Autumn Late (Month 9), Days 29-31.
-        # Month 8 (0-indexed) starts at 8 * 37200 = 297600
-        # Day 29 starts at 297600 + (28 * 1200) = 331200
         spooky_start = 331200
-        if rem_year < spooky_start:
-            starts_in = spooky_start - rem_year
-        else:
-            starts_in = (cls.SB_YEAR - rem_year) + spooky_start
-            
+        starts_in = spooky_start - rem_year if rem_year < spooky_start else (cls.SB_YEAR - rem_year) + spooky_start
         events.append(SkyblockEvent(
             name="🎃 Spooky Festival",
             description="Catch spooky sea creatures and get candy!",
             starts_in_seconds=int(starts_in),
-            duration_seconds=1200 * 3  # 3 in-game days
+            duration_seconds=1200 * 3
         ))
         
-        # Jerry Workshop (Winter Late)
-        jerry_start = 11 * 37200  # Month 12
-        if rem_year < jerry_start:
-            starts_in = jerry_start - rem_year
-        else:
-            starts_in = (cls.SB_YEAR - rem_year) + jerry_start
-            
+        # Season of the Jerry (Winter Late)
+        jerry_start = 11 * 37200
+        starts_in = jerry_start - rem_year if rem_year < jerry_start else (cls.SB_YEAR - rem_year) + jerry_start
         events.append(SkyblockEvent(
             name="❄️ Season of the Jerry",
             description="Jerry pond fishing and gifts!",
             starts_in_seconds=int(starts_in),
-            duration_seconds=37200  # Whole month
+            duration_seconds=37200
         ))
         
-        # Marina Fishing Festival (Placeholder: occurs randomly, simulating with fixed interval)
+        # Dark Auction (Every 3 in-game days = every 1 hour IRL)
+        # 1 IRL hour = 3600 seconds.
+        da_starts_in = 3600 - (now % 3600)
         events.append(SkyblockEvent(
-            name="🦈 Fishing Festival (Shark Scale)",
+            name="🌑 Dark Auction",
+            description="Sirius is selling rare items in the dark forest.",
+            starts_in_seconds=int(da_starts_in),
+            duration_seconds=600
+        ))
+        
+        # Jacob's Farming Contest (Every 3 in-game days, offset by 1 day)
+        jacob_starts_in = 3600 - ((now + 1200) % 3600)
+        events.append(SkyblockEvent(
+            name="🌾 Jacob's Farming Contest",
+            description="Harvest crops to win medals and tickets!",
+            starts_in_seconds=int(jacob_starts_in),
+            duration_seconds=1200
+        ))
+        
+        # Marina Fishing Festival (Placeholder)
+        events.append(SkyblockEvent(
+            name="🦈 Fishing Festival",
             description="Catch sharks during Marina's festival.",
-            starts_in_seconds=int((now % 86400) / 2),  # Dummy calc
+            starts_in_seconds=int((now % 86400) / 2),
             duration_seconds=3600
         ))
         
