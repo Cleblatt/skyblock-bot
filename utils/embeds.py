@@ -272,3 +272,117 @@ def build_error_embed(title: str, description: str) -> discord.Embed:
     )
     embed.timestamp = discord.utils.utcnow()
     return embed
+
+
+# ── New Command Embeds (Option A) ────────────────────────────────────────────
+
+def build_mp_embed(username: str, stats: dict) -> discord.Embed:
+    embed = discord.Embed(title=f"🪄 Magical Power — {username}", color=0x9B59B6)
+    embed.add_field(name="Total MP", value=f"**{stats['mp']}**", inline=True)
+    embed.add_field(name="Selected Power", value=stats['power'], inline=True)
+    embed.add_field(name="Tuning Points", value=str(stats['tuning_points']), inline=True)
+    return embed
+
+def build_missing_acc_embed(username: str) -> discord.Embed:
+    embed = discord.Embed(title=f"🔍 Missing Accessories — {username}", color=0xE67E22)
+    embed.description = (
+        "*(Placeholder for Option A)*\n\n"
+        "1. **Ender Relic** - 50m coins (1,000,000 / MP)\n"
+        "2. **Hegemony Artifact** - 400m coins (2,000,000 / MP)\n"
+        "3. **Wither Relic** - 15m coins (3,000,000 / MP)"
+    )
+    return embed
+
+def build_upgrade_cost_embed(username: str, target: int) -> discord.Embed:
+    embed = discord.Embed(title=f"💰 Upgrade Cost — {username}", color=0xF1C40F)
+    embed.description = f"To reach **{target} MP**, you need approx **250,000,000 Coins**. *(Placeholder)*"
+    return embed
+
+def build_fishing_stats_embed(username: str, stats: dict) -> discord.Embed:
+    embed = discord.Embed(title=f"🎣 Fishing Stats — {username}", color=0x3498DB)
+    embed.add_field(name="Fishing Level", value=f"Level {stats['level']}", inline=True)
+    embed.add_field(name="Sea Creatures Killed", value=format_coins(stats['sc_kills']), inline=True)
+    embed.add_field(name="Trophy Fish Caught", value=format_coins(stats['trophy_fish_caught']), inline=True)
+    return embed
+
+def build_fishing_events_embed(events: list) -> discord.Embed:
+    embed = discord.Embed(title="📅 Upcoming Skyblock Events", color=0x1ABC9C)
+    for e in events:
+        mins = e.starts_in_seconds // 60
+        embed.add_field(name=e.name, value=f"{e.description}\n**Starts in:** {mins} minutes", inline=False)
+    return embed
+
+def build_fishing_profit_embed(bait: str, rod: str) -> discord.Embed:
+    embed = discord.Embed(title="🦈 Fishing Profit Calculator", color=0x2ECC71)
+    embed.description = f"Using **{bait.title()}** and **{rod.title()}**:\n\nEstimated Profit: **2,500,000 Coins / hour** *(Placeholder)*"
+    return embed
+
+def build_slayer_embed(username: str, stats: dict) -> discord.Embed:
+    embed = discord.Embed(title=f"⚔️ Slayer — {username}", color=0xE74C3C)
+    embed.add_field(name="Boss", value=stats['boss'], inline=True)
+    embed.add_field(name="Level", value=f"Level {stats['level']}", inline=True)
+    embed.add_field(name="Total XP", value=format_coins(stats['xp']), inline=True)
+    embed.add_field(name="Total Kills", value=format_coins(stats['kills']), inline=True)
+    return embed
+
+def build_bestiary_embed(username: str, stats: dict) -> discord.Embed:
+    embed = discord.Embed(title=f"🦇 Bestiary — {username}", color=0x8E44AD)
+    embed.description = f"**Current Milestone:** {stats['milestone']}\n\n**Easiest Next Targets:**\n"
+    for r in stats['recommendations']:
+        embed.description += f"• {r}\n"
+    return embed
+
+def build_rng_calc_embed(item: str, magic_find: int) -> discord.Embed:
+    embed = discord.Embed(title="🎲 RNG Drop Calculator", color=0xD35400)
+    mf_mult = 1 + (magic_find / 100)
+    embed.description = f"Item: **{item.title()}**\nMagic Find: **{magic_find}**\n\nDrop Chance: **{0.05 * mf_mult:.4f}%** *(Placeholder)*"
+    return embed
+
+def build_craft_profit_embed(craft: Any) -> discord.Embed:
+    embed = discord.Embed(title=f"⚒️ Craft Profit — {craft.item_name}", color=0x2ECC71)
+    embed.add_field(name="Recipe", value=craft.recipe_str, inline=False)
+    embed.add_field(name="Crafting Cost", value=format_coins(craft.craft_cost), inline=True)
+    embed.add_field(name="Sell Price (AH/Bz)", value=format_coins(craft.sell_price), inline=True)
+    embed.add_field(name="Expected Profit", value=f"+{format_coins(craft.profit)} ({craft.margin_pct:.1f}%)", inline=False)
+    return embed
+
+def build_price_embed(item: str, price: float) -> discord.Embed:
+    embed = discord.Embed(title=f"🏷️ Market Value — {item.title()}", color=0xF39C12)
+    embed.description = f"Current Lowest Price: **{format_coins(price)}**"
+    return embed
+
+def build_networth_embed(username: str, stats: dict) -> discord.Embed:
+    embed = discord.Embed(title=f"💰 Networth — {username}", color=0xF1C40F)
+    embed.add_field(name="Total Networth", value=f"**{format_coins(stats['total'])}**", inline=False)
+    embed.add_field(name="Purse", value=format_coins(stats['purse']), inline=True)
+    embed.add_field(name="Bank", value=format_coins(stats['bank']), inline=True)
+    embed.add_field(name="Items & Storage", value=f"{format_coins(stats['items'])} *(Estimate)*", inline=True)
+    return embed
+
+def build_skills_embed(username: str, sa: float) -> discord.Embed:
+    embed = discord.Embed(title=f"📊 Skill Average — {username}", color=0x27AE60)
+    embed.description = f"True Skill Average: **{sa}**"
+    return embed
+
+def build_dungeons_embed(username: str, stats: dict) -> discord.Embed:
+    embed = discord.Embed(title=f"💀 Dungeons — {username}", color=0x34495E)
+    embed.add_field(name="Catacombs Level", value=f"Level {stats['catacombs_level']}", inline=False)
+    embed.add_field(name="Total Completions", value=format_coins(stats['total_completions']), inline=False)
+    for c, l in stats['classes'].items():
+        embed.add_field(name=c, value=f"Level {l}", inline=True)
+    return embed
+
+def build_skyblock_time_embed(time_data: dict) -> discord.Embed:
+    embed = discord.Embed(title="⏰ Skyblock Time", color=0x2980B9)
+    embed.add_field(name="Time", value=time_data['time'], inline=True)
+    embed.add_field(name="Day", value=f"Day {time_data['day']}", inline=True)
+    embed.add_field(name="Season", value=time_data['month_name'], inline=True)
+    embed.add_field(name="Year", value=f"Year {time_data['year']}", inline=True)
+    return embed
+
+def build_botinfo_embed(bot: Any) -> discord.Embed:
+    embed = discord.Embed(title="🤖 Bot Info", color=0x7F8C8D)
+    embed.add_field(name="Servers", value=str(len(bot.guilds)), inline=True)
+    embed.add_field(name="Latency", value=f"{round(bot.latency * 1000)}ms", inline=True)
+    embed.add_field(name="Version", value="2.0.0", inline=True)
+    return embed

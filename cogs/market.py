@@ -168,6 +168,92 @@ class MarketCog(commands.Cog):
             logger.error("Error in /bins: %s", e, exc_info=True)
             await interaction.followup.send(embed=build_error_embed("Error", str(e)))
 
+    # ── /flip_bz ─────────────────────────────────────────────────────────────
+
+    @app_commands.command(name="flip_bz", description="Find the highest margin flips in the Bazaar")
+    async def flip_bz(self, interaction: discord.Interaction) -> None:
+        await interaction.response.defer(thinking=True)
+        try:
+            bazaar_data = await self.bot.bazaar_cache.get()
+            flips = await self.bot.analyzer.get_best_bazaar_flips(bazaar_data)
+            embed = build_flips_embed(flips)
+            embed.title = "📈 Top Bazaar Flips"
+            await interaction.followup.send(embed=embed)
+        except Exception as e:
+            logger.error("Error in /flip_bz: %s", e, exc_info=True)
+            await interaction.followup.send(embed=build_error_embed("Error", str(e)))
+
+    # ── /flip_ah ─────────────────────────────────────────────────────────────
+
+    @app_commands.command(name="flip_ah", description="Scan for recently listed, underpriced BIN auctions")
+    async def flip_ah(self, interaction: discord.Interaction) -> None:
+        await interaction.response.defer(thinking=True)
+        try:
+            auction_bins = await self.bot.auction_cache.get()
+            flips = await self.bot.analyzer.get_best_auction_flips(auction_bins)
+            embed = build_flips_embed(flips)
+            embed.title = "🔨 Top Auction Flips"
+            await interaction.followup.send(embed=embed)
+        except Exception as e:
+            logger.error("Error in /flip_ah: %s", e, exc_info=True)
+            await interaction.followup.send(embed=build_error_embed("Error", str(e)))
+
+    # ── /craft_profit ────────────────────────────────────────────────────────
+
+    @app_commands.command(name="craft_profit", description="Compare raw material costs in Bazaar vs finished item price in AH")
+    @app_commands.describe(item="The item you want to craft (e.g. aspect of the end)")
+    async def craft_profit(self, interaction: discord.Interaction, item: str) -> None:
+        await interaction.response.defer(thinking=True)
+        try:
+            bazaar_data = await self.bot.bazaar_cache.get()
+            auction_bins = await self.bot.auction_cache.get()
+            
+            craft = await self.bot.analyzer.calculate_craft_profit(item, bazaar_data, auction_bins)
+            if not craft:
+                await interaction.followup.send(embed=build_error_embed("Not Found", f"No recipe found for '{item}' (Placeholder data only supports 'aspect of the end' and 'hot potato book')."))
+                return
+                
+            from utils.embeds import build_craft_profit_embed
+            embed = build_craft_profit_embed(craft)
+            await interaction.followup.send(embed=embed)
+        except Exception as e:
+            logger.error("Error in /craft_profit: %s", e, exc_info=True)
+            await interaction.followup.send(embed=build_error_embed("Error", str(e)))
+
+    # ── /price ───────────────────────────────────────────────────────────────
+
+    @app_commands.command(name="price", description="Show the current market value of an item")
+    @app_commands.describe(item="The item to price check")
+    async def price(self, interaction: discord.Interaction, item: str) -> None:
+        await interaction.response.defer(thinking=True)
+        try:
+            item_upper = item.upper().replace(" ", "_")
+            bazaar_data = await self.bot.bazaar_cache.get()
+            
+            price = 0.0
+            # Check bazaar first
+            if item_upper in bazaar_data:
+                price = bazaar_data[item_upper].buy_price
+            else:
+                # Check auctions
+                auction_bins = await self.bot.auction_cache.get()
+                for name, p in auction_bins.items():
+                    if item.lower() in name.lower():
+                        if price == 0 or p < price:
+                            price = p
+                            
+            if price == 0:
+                await interaction.followup.send(embed=build_error_embed("Not Found", f"Could not find a price for '{item}'."))
+                return
+                
+            from utils.embeds import build_price_embed
+            embed = build_price_embed(item, price)
+            await interaction.followup.send(embed=embed)
+        except Exception as e:
+            logger.error("Error in /price: %s", e, exc_info=True)
+            await interaction.followup.send(embed=build_error_embed("Error", str(e)))
+
+
     # ── Auto-post loop ───────────────────────────────────────────────────────
 
     @tasks.loop(seconds=config.AUTO_POST_INTERVAL)

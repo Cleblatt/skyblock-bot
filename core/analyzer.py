@@ -40,13 +40,23 @@ class FlipOpportunity:
     """
 
     item_name: str
-    source: str
+    source: str  # 'Bazaar' or 'Auction'
     buy_price: float
     sell_price: float
     profit: float
     margin_pct: float
-    volume: int
-    confidence: str
+    volume: int  # weekly volume or estimated
+    confidence: str  # emoji: '🟢 High', '🟡 Medium', '🔴 Low'
+
+
+@dataclass
+class CraftProfit:
+    item_name: str
+    craft_cost: float
+    sell_price: float
+    profit: float
+    margin_pct: float
+    recipe_str: str
 
 
 class MarketAnalyzer:
@@ -110,6 +120,70 @@ class MarketAnalyzer:
             len(top),
         )
         return top
+
+    async def get_best_bazaar_flips(self, bazaar_data: dict[str, BazaarProduct]) -> list[FlipOpportunity]:
+        """Specific command helper for /flip_bz."""
+        flips = await self._bazaar_flips(bazaar_data)
+        flips.sort(key=lambda f: f.margin_pct, reverse=True)
+        return flips[:self.top_count]
+
+    async def get_best_auction_flips(self, auction_bins: dict[str, int]) -> list[FlipOpportunity]:
+        """Specific command helper for /flip_ah."""
+        flips = await self._auction_flips(auction_bins)
+        flips.sort(key=lambda f: f.profit, reverse=True)
+        return flips[:self.top_count]
+
+    async def calculate_craft_profit(self, item_name: str, bazaar_data: dict[str, BazaarProduct], auction_bins: dict[str, int]) -> CraftProfit | None:
+        """Calculate profit for crafting an item (Option A Placeholder)."""
+        item_lower = item_name.lower()
+        
+        # Hardcoded recipes for Option A demonstration
+        recipes = {
+            "aspect of the end": {
+                "ingredients": {"ENCHANTED_EYE_OF_ENDER": 32, "ENCHANTED_DIAMOND": 1},
+                "output": "Aspect of the End"
+            },
+            "hot potato book": {
+                "ingredients": {"ENCHANTED_BAKED_POTATO": 1, "PAPER": 3},
+                "output": "Hot Potato Book"
+            }
+        }
+        
+        match = None
+        for key, recipe in recipes.items():
+            if item_lower in key:
+                match = recipe
+                break
+                
+        if not match:
+            return None
+            
+        cost = 0.0
+        recipe_parts = []
+        for ing, amount in match["ingredients"].items():
+            price = bazaar_data[ing].buy_price if ing in bazaar_data else 0
+            cost += price * amount
+            recipe_parts.append(f"{amount}x {ing.replace('_', ' ').title()}")
+            
+        sell_price = auction_bins.get(match["output"], 0)
+        
+        if sell_price == 0:
+            # Fallback to bazaar sell price if it's a bazaar item
+            sell_key = match["output"].upper().replace(" ", "_")
+            if sell_key in bazaar_data:
+                sell_price = bazaar_data[sell_key].sell_price
+                
+        profit = sell_price - cost
+        margin = (profit / cost * 100) if cost > 0 else 0
+        
+        return CraftProfit(
+            item_name=match["output"],
+            craft_cost=cost,
+            sell_price=sell_price,
+            profit=profit,
+            margin_pct=margin,
+            recipe_str=", ".join(recipe_parts)
+        )
 
     # ------------------------------------------------------------------ #
     # Bazaar flip detection

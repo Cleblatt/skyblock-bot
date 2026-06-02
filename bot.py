@@ -70,6 +70,11 @@ class SkyblockBot(commands.Bot):
         logger.info("Loading cogs...")
         await self.load_extension("cogs.market")
         await self.load_extension("cogs.player")
+        await self.load_extension("cogs.accessories")
+        await self.load_extension("cogs.fishing")
+        await self.load_extension("cogs.hunting")
+        await self.load_extension("cogs.utilities")
+        await self.load_extension("cogs.admin")
 
         # Sync slash commands to the configured guild for instant availability
         if config.GUILD_ID:
