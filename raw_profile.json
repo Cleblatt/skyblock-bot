@@ -1,0 +1,396 @@
+{
+  "profile_id": "99e4b33a-ff34-4c71-a7be-cab14d4350f3",
+  "members": {
+    "312c02e792bd4814bc1065dd0bb4fe4e": {
+      "player_data": {
+        "visited_zones": [
+          "dynamic_portal_island",
+          "village"
+        ],
+        "last_death": 85550785,
+        "active_effects": [],
+        "visited_modes": [
+          "dynamic",
+          "hub"
+        ],
+        "unlocked_coll_tiers": [
+          "SEEDS_-1",
+          "LOG_-1",
+          "COBBLESTONE_-1",
+          "COBBLESTONE_1",
+          "COBBLESTONE_2"
+        ]
+      },
+      "profile": {
+        "bank_account": 0.0,
+        "first_join": 1645826490775,
+        "coop_invitation": {
+          "timestamp": 1645826490502,
+          "invited_by": "3a70679210bb420394eb26a820b78426",
+          "confirmed": true,
+          "confirmed_timestamp": 1645826490726
+        },
+        "cookie_buff_active": false
+      },
+      "jacobs_contest": {
+        "medals_inv": {},
+        "perks": {},
+        "contests": {}
+      },
+      "currencies": {
+        "coin_purse": 10.0
+      },
+      "dungeons": {
+        "dungeon_types": {
+          "catacombs": {},
+          "master_catacombs": {}
+        },
+        "player_classes": {
+          "healer": {},
+          "mage": {},
+          "berserk": {},
+          "archer": {},
+          "tank": {}
+        },
+        "dungeon_journal": {
+          "journal_entries": {}
+        }
+      },
+      "player_id": "312c02e7-92bd-4814-bc10-65dd0bb4fe4e",
+      "mining_core": {
+        "nodes": {}
+      },
+      "pets_data": {
+        "pets": []
+      },
+      "bestiary": {
+        "migrated_stats": true
+      },
+      "quests": {},
+      "forge": {
+        "forge_processes": {}
+      },
+      "fairy_soul": {
+        "total_collected": 0
+      },
+      "objectives": {
+        "collect_log": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_guide": {
+          "status": "COMPLETE",
+          "progress": 0,
+          "completed_at": 1645826588156
+        },
+        "public_island": {
+          "status": "COMPLETE",
+          "progress": 0,
+          "completed_at": 1645826971524
+        },
+        "explore_hub": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "explore_village": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_librarian": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_farmer": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_blacksmith": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_lumberjack": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_event_master": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_auction_master": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_banker": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_fairy": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_fisherman_1": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_carpenter": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "paint_canvas": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_pet_collector": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_pet_sitter": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "tutorial": [
+          "zone_village",
+          "first_join"
+        ]
+      },
+      "slayer": {
+        "slayer_bosses": {
+          "zombie": {},
+          "spider": {},
+          "wolf": {},
+          "enderman": {}
+        }
+      }
+    },
+    "3a70679210bb420394eb26a820b78426": {
+      "player_data": {
+        "visited_zones": [
+          "village",
+          "dynamic_portal_island"
+        ],
+        "last_death": 38966175,
+        "active_effects": [],
+        "visited_modes": [
+          "dynamic",
+          "hub"
+        ],
+        "unlocked_coll_tiers": [
+          "SEEDS_-1",
+          "LOG_-1",
+          "COBBLESTONE_-1",
+          "COBBLESTONE_1",
+          "COBBLESTONE_2"
+        ]
+      },
+      "leveling": {
+        "completions": {},
+        "experience": 13
+      },
+      "jacobs_contest": {
+        "medals_inv": {},
+        "perks": {},
+        "contests": {}
+      },
+      "currencies": {
+        "coin_purse": 29.0
+      },
+      "dungeons": {
+        "dungeon_types": {
+          "catacombs": {
+            "fastest_time_s_plus": {},
+            "most_damage_healer": {},
+            "most_damage_tank": {},
+            "tier_completions": {},
+            "mobs_killed": {},
+            "watcher_kills": {},
+            "most_damage_archer": {},
+            "most_healing": {},
+            "most_mobs_killed": {},
+            "fastest_time": {},
+            "fastest_time_s": {},
+            "most_damage_mage": {},
+            "best_score": {},
+            "most_damage_berserk": {}
+          },
+          "master_catacombs": {}
+        },
+        "player_classes": {
+          "healer": {},
+          "mage": {},
+          "berserk": {},
+          "archer": {},
+          "tank": {}
+        },
+        "dungeon_journal": {
+          "journal_entries": {}
+        }
+      },
+      "profile": {
+        "first_join": 1599241877653,
+        "cookie_buff_active": false
+      },
+      "player_id": "3a706792-10bb-4203-94eb-26a820b78426",
+      "mining_core": {
+        "nodes": {}
+      },
+      "pets_data": {
+        "pets": []
+      },
+      "bestiary": {
+        "migrated_stats": true
+      },
+      "quests": {},
+      "forge": {
+        "forge_processes": {}
+      },
+      "fairy_soul": {
+        "total_collected": 0
+      },
+      "objectives": {
+        "collect_log": {
+          "status": "COMPLETE",
+          "progress": 1,
+          "completed_at": 1645826498158
+        },
+        "talk_to_guide": {
+          "status": "COMPLETE",
+          "progress": 0,
+          "completed_at": 1645826590156
+        },
+        "public_island": {
+          "status": "COMPLETE",
+          "progress": 0,
+          "completed_at": 1599242236236
+        },
+        "explore_hub": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "explore_village": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_librarian": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_farmer": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_blacksmith": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_lumberjack": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_event_master": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_auction_master": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_banker": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_fairy": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_fisherman_1": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_carpenter": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "paint_canvas": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_pet_collector": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "talk_to_pet_sitter": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        },
+        "craft_workbench": {
+          "status": "COMPLETE",
+          "progress": 1,
+          "completed_at": 1645826532510
+        },
+        "craft_wood_pickaxe": {
+          "status": "COMPLETE",
+          "progress": 1,
+          "completed_at": 1645826627318
+        },
+        "tutorial": [
+          "first_join",
+          "zone_village"
+        ],
+        "hub_talk_to_wizard": {
+          "status": "ACTIVE",
+          "progress": 0,
+          "completed_at": 0
+        }
+      },
+      "slayer": {
+        "slayer_bosses": {
+          "spider": {
+            "claimed_levels": {}
+          },
+          "wolf": {
+            "claimed_levels": {}
+          },
+          "zombie": {
+            "claimed_levels": {}
+          },
+          "enderman": {
+            "claimed_levels": {}
+          }
+        }
+      }
+    }
+  },
+  "cute_name": "Pineapple",
+  "selected": true
+}

@@ -4,6 +4,7 @@ from discord.ext import commands
 import logging
 from core.mojang_client import PlayerNotFoundError
 from core.player_stats import PlayerStatsParser
+from utils.helpers import get_profile
 from utils.embeds import (
     build_mp_embed, build_accessories_embed, build_missing_acc_embed,
     build_upgrade_cost_embed, build_error_embed,
@@ -16,22 +17,12 @@ class AccessoriesCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    async def _get_selected_profile(self, player: str) -> tuple[str, str, dict]:
-        """Resolve player and return (uuid, display_name, selected_profile)."""
-        uuid, display_name = await self.bot.mojang.resolve(player)
-        profiles_data = await self.bot.hypixel.get_player_profiles(uuid)
-        profiles = profiles_data.get("profiles", [])
-        if not profiles:
-            raise ValueError(f"{display_name} has no Skyblock profiles.")
-        selected = next((p for p in profiles if p.get("selected", False)), profiles[0])
-        return uuid, display_name, selected
-
     @app_commands.command(name="accessories", description="Show your accessory bag overview, MP, Power Stone, and Tuning")
-    @app_commands.describe(player="Minecraft username or UUID")
-    async def accessories(self, interaction: discord.Interaction, player: str) -> None:
+    @app_commands.describe(player="Minecraft username or UUID", profile="Optional: Profile name (e.g. Apple)")
+    async def accessories(self, interaction: discord.Interaction, player: str, profile: str | None = None) -> None:
         await interaction.response.defer(thinking=True)
         try:
-            uuid, display_name, selected = await self._get_selected_profile(player)
+            uuid, display_name, selected = await get_profile(self.bot, player, profile)
             stats = PlayerStatsParser.get_accessories_list(selected, uuid)
             embed = build_accessories_embed(display_name, stats)
             await interaction.followup.send(embed=embed)
@@ -44,11 +35,11 @@ class AccessoriesCog(commands.Cog):
             await interaction.followup.send(embed=build_error_embed("Error", str(e)))
 
     @app_commands.command(name="mp", description="Show Magical Power, equipped Power Stone, and Tuning points")
-    @app_commands.describe(player="Minecraft username or UUID")
-    async def mp(self, interaction: discord.Interaction, player: str) -> None:
+    @app_commands.describe(player="Minecraft username or UUID", profile="Optional: Profile name (e.g. Apple)")
+    async def mp(self, interaction: discord.Interaction, player: str, profile: str | None = None) -> None:
         await interaction.response.defer(thinking=True)
         try:
-            uuid, display_name, selected = await self._get_selected_profile(player)
+            uuid, display_name, selected = await get_profile(self.bot, player, profile)
             stats = PlayerStatsParser.get_magical_power(selected, uuid)
             embed = build_mp_embed(display_name, stats)
             await interaction.followup.send(embed=embed)

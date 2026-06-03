@@ -5,6 +5,7 @@ import logging
 from core.mojang_client import PlayerNotFoundError
 from core.player_stats import PlayerStatsParser
 from core.skyblock_time import SkyblockTimeCalculator
+from utils.helpers import get_profile
 from utils.embeds import (
     build_networth_embed, build_skills_embed, build_dungeons_embed,
     build_skyblock_time_embed, build_error_embed,
@@ -17,22 +18,12 @@ class UtilitiesCog(commands.Cog):
     def __init__(self, bot: commands.Bot) -> None:
         self.bot = bot
 
-    async def _get_selected_profile(self, player: str) -> tuple[str, str, dict]:
-        """Resolve player and return (uuid, display_name, selected_profile)."""
-        uuid, display_name = await self.bot.mojang.resolve(player)
-        profiles_data = await self.bot.hypixel.get_player_profiles(uuid)
-        profiles = profiles_data.get("profiles", [])
-        if not profiles:
-            raise ValueError(f"{display_name} has no Skyblock profiles.")
-        selected = next((p for p in profiles if p.get("selected", False)), profiles[0])
-        return uuid, display_name, selected
-
     @app_commands.command(name="networth", description="Show purse and bank balance for a player")
-    @app_commands.describe(player="Minecraft username or UUID")
-    async def networth(self, interaction: discord.Interaction, player: str) -> None:
+    @app_commands.describe(player="Minecraft username or UUID", profile="Optional: Profile name (e.g. Apple)")
+    async def networth(self, interaction: discord.Interaction, player: str, profile: str | None = None) -> None:
         await interaction.response.defer(thinking=True)
         try:
-            uuid, display_name, selected = await self._get_selected_profile(player)
+            uuid, display_name, selected = await get_profile(self.bot, player, profile)
             stats = PlayerStatsParser.calculate_networth(selected, uuid)
             embed = build_networth_embed(display_name, stats)
             await interaction.followup.send(embed=embed)
@@ -45,11 +36,11 @@ class UtilitiesCog(commands.Cog):
             await interaction.followup.send(embed=build_error_embed("Error", str(e)))
 
     @app_commands.command(name="skills", description="Show all skill levels and Skill Average for a player")
-    @app_commands.describe(player="Minecraft username or UUID")
-    async def skills(self, interaction: discord.Interaction, player: str) -> None:
+    @app_commands.describe(player="Minecraft username or UUID", profile="Optional: Profile name (e.g. Apple)")
+    async def skills(self, interaction: discord.Interaction, player: str, profile: str | None = None) -> None:
         await interaction.response.defer(thinking=True)
         try:
-            uuid, display_name, selected = await self._get_selected_profile(player)
+            uuid, display_name, selected = await get_profile(self.bot, player, profile)
             data = PlayerStatsParser.get_skills(selected, uuid)
             embed = build_skills_embed(display_name, data)
             await interaction.followup.send(embed=embed)
@@ -62,11 +53,11 @@ class UtilitiesCog(commands.Cog):
             await interaction.followup.send(embed=build_error_embed("Error", str(e)))
 
     @app_commands.command(name="dungeons", description="Show Catacombs level, Class levels, and floor completions")
-    @app_commands.describe(player="Minecraft username or UUID")
-    async def dungeons(self, interaction: discord.Interaction, player: str) -> None:
+    @app_commands.describe(player="Minecraft username or UUID", profile="Optional: Profile name (e.g. Apple)")
+    async def dungeons(self, interaction: discord.Interaction, player: str, profile: str | None = None) -> None:
         await interaction.response.defer(thinking=True)
         try:
-            uuid, display_name, selected = await self._get_selected_profile(player)
+            uuid, display_name, selected = await get_profile(self.bot, player, profile)
             stats = PlayerStatsParser.get_dungeons_stats(selected, uuid)
             embed = build_dungeons_embed(display_name, stats)
             await interaction.followup.send(embed=embed)

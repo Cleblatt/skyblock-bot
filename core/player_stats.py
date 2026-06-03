@@ -51,10 +51,10 @@ def _xp_to_level(xp: float, table: list[int], max_level: int = 50) -> int:
     """Convert raw XP to a level using a cumulative XP table."""
     level = 0
     for i, req in enumerate(table):
-        if i >= max_level:
+        if i > max_level:
             break
         if xp >= req:
-            level = i + 1
+            level = i
         else:
             break
     return min(level, max_level)
